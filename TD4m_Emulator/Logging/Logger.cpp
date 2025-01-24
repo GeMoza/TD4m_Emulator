@@ -4,11 +4,13 @@
 #include <fstream>
 #include <msclr/marshal_cppstd.h>
 
+using namespace System;
+
 Logger::Logger() : logToUI(nullptr), logFilePath(nullptr), logToFile(false) {}
 
 Logger::Logger(String^ logFilePath) : logToUI(nullptr), logFilePath(logFilePath), logToFile(true) {}
 
-void Logger::AttachToInterface(Action<String^>^ logToUI) { this->logToUI = logToUI; }
+void Logger::AttachToInterface(LogLineHandler^ logToUI) { this->logToUI = logToUI; }
 
 
 void Logger::DetachInterface() { logToUI = nullptr; }

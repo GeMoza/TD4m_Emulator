@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -124,7 +124,6 @@
     <ClInclude Include="UI\MainWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="UI\MemoryView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\CommandProcessor.cpp" />
@@ -132,8 +131,7 @@
     <ClCompile Include="Core\Memory.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="UI\MainWindow.cpp" />
-    <ClCompile Include="UI\Main.cpp" />
-    <ClCompile Include="UI\MemoryView.cpp" />
+	<ClCompile Include="UI\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\CommandsTab.xlsx" />
@@ -149,7 +147,7 @@
   <ItemGroup>
     <EmbeddedResource Include="UI\MainWindow.resx">
       <DependentUpon>UI\MainWindow.h</DependentUpon>
-      <LogicalName>$(RootNamespace).MainWindow.resources</LogicalName>
+	  <LogicalName>$(RootNamespace).UI.MainWindow.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

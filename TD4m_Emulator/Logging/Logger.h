@@ -2,25 +2,27 @@
 
 #pragma once
 
-using namespace System;
+using System::Byte;
+using System::String;
 
 public ref class Logger {
 public:
-    Logger();                                           // Конструктор по умолчанию без логгирования
+    using LogLineHandler = System::Action<String^>;
 
-    Logger(String^ logFilePath);                        // Конструктор для логирования в файл
+    Logger();                                                   // Конструктор по умолчанию без логгирования
 
-    void AttachToInterface(Action<String^>^ logToUI);   // Конструктор для вывода логов в UI
+    Logger(String^ logFilePath);                                // Конструктор для логирования в файл
 
-    void Log(String^ message);                          // Записать сообщение
+    void AttachToInterface(LogLineHandler^ logToUI);            // Конструктор для вывода логов в UI
+
+    void Log(String^ message);                                  // Записать сообщение
 
     void LogRangeError(String^ regName, Byte maxValue);
     void LogAndThrow(String^ errorType, String^ errorMessage);
 
-    void DetachInterface();                             // Отсоединитесь от пользовательского интерфейса
-
+    void DetachInterface();                                     // Отсоединиться от пользовательского интерфейса
 protected:
-    Action<String^>^ logToUI;   // Делегат для регистрации в UI
-    String^ logFilePath;        // Путь к файлу журнала
-    bool logToFile;             // Флаг регистрации файлов
+    LogLineHandler^ logToUI;   // Делегат для регистрации в UI
+    String^ logFilePath;       // Путь к файлу журнала
+    bool logToFile;            // Флаг регистрации файлов
 };

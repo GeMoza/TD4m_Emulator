@@ -6,7 +6,10 @@
 #include "../Config/config.h"
 #include "CommandBase.h"
 
-using namespace System;
+#include <string>
+
+using System::Func;
+using System::String;
 
 /* Операция присваивания с влиянием на флаги reg ⇐ v1 + v2 + v3
 * Варианты:
@@ -228,6 +231,9 @@ public:
         registers->C = false;
         registers->PC++;
 
-        logger->Log(String::Format("CommandLogic: {0} operation executed. Target={1}, Operand={2}", operation.ToString(), *target, operand != nullptr ? *operand : 0));
+        logger->Log(String::Format("CommandLogic: {0} operation executed. Target={1}, Operand={2}", 
+            (int)operation,
+            *target,
+            operand != nullptr ? *operand : 0));
     }
 };

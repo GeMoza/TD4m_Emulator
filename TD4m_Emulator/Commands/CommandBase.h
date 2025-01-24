@@ -6,8 +6,6 @@
 #include "../Core/Memory.h"
 #include "../Logging/Logger.h"
 
-using namespace System;
-
 public ref class Command abstract {
 protected:
     Registers^ registers;

@@ -4,29 +4,29 @@
 
 #include "Commands.h"
 
-using namespace System;
-using namespace System::Collections::Generic;
+using System::String;
+using System::Collections::Generic::Dictionary;
 
 ref class CommandProcessor {
 public:
     CommandProcessor(Registers^ reg, Memory^ mem, Logger^ log, String^ commandsPath);
 
-    Command^ GetCommand(Byte code);
-    Command^ GetCommand(String^ mnemonic);
+    Command^ GetCommand(System::Byte code);
+    Command^ GetCommand(System::String^ mnemonic);
 
-    Byte GetCode(String^ mnemonic);
-    String^ GetMnemonic(Byte code);
+    Byte GetCode(System::String^ mnemonic);
+    String^ GetMnemonic(System::Byte code);
 
-    bool IsValidCommand(Byte code);
-    bool IsValidCommand(String^ mnemonic);
+    bool IsValidCommand(System::Byte code);
+    bool IsValidCommand(System::String^ mnemonic);
 
 protected:
-    void Initialize(String^ commandsPath);
-    Command^ ParseCommand(Byte code, String^ mnemonic);
+    void Initialize(System::String^ commandsPath);
+    Command^ ParseCommand(System::Byte code, System::String^ mnemonic);
 
     // Словари
-    Dictionary<Byte, Command^>^ codeToCommand;       // Словарь команд по коды
-    Dictionary<String^, Byte>^ mnemonicToCode;       // Словарь кодов по мнемонике
+    Dictionary<System::Byte, Command^>^ codeToCommand;       // Словарь команд по коды
+    Dictionary<System::String^, System::Byte>^ mnemonicToCode;       // Словарь кодов по мнемонике
     //Dictionary<String^, IntPtr>^ registerMap;        // Словарь поддерживаемых переменных
 
     Registers^ registers;
@@ -35,5 +35,5 @@ protected:
 
 public:
 
-    short BinaryStringToShort(String^ binaryStr);
+    short BinaryStringToShort(System::String^ binaryStr);
 };

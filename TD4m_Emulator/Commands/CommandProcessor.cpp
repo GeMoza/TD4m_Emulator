@@ -11,6 +11,7 @@ using namespace msclr::interop;
 using namespace System::Text::RegularExpressions;
 using namespace System::Data::OleDb;
 using namespace System::Data;
+using namespace System::Collections::Generic;
 
 CommandProcessor::CommandProcessor(Registers^ reg, Memory^ mem, Logger^ log, String^ commandsPath)
     : registers(reg), memory(mem), logger(log) {

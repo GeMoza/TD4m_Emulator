@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Core/Emulator.h"
+#include "MemoryView.h"
 
 namespace TD4mEmulator {
 
@@ -20,9 +21,7 @@ namespace TD4mEmulator {
 		MainWindow(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
+			Initialize();
 		}
 
 	protected:
@@ -55,13 +54,13 @@ namespace TD4mEmulator {
 	private: System::Windows::Forms::GroupBox^ gB_port_input;
 	private: System::Windows::Forms::GroupBox^ gB_port_output;
 	private: System::Windows::Forms::TextBox^ tB_port_output;
-	private: System::Windows::Forms::VScrollBar^ vSB_port_input;
+
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::Panel^ pnl_ROM;
 	private: System::Windows::Forms::Label^ lb_ROM;
 	private: System::Windows::Forms::ToolStrip^ tS_Down_1;
 	private: System::Windows::Forms::ToolStripLabel^ tSL_selectedFile;
-	private: System::Windows::Forms::ToolStripTextBox^ tSTB_selectedFile;
+
 	private: System::Windows::Forms::ToolStripSeparator^ TSSep_1;
 	private: System::Windows::Forms::ToolStripLabel^ tSL_clockGenerator;
 	private: System::Windows::Forms::MenuStrip^ mS_Up_1;
@@ -82,8 +81,8 @@ namespace TD4mEmulator {
 	private: System::Windows::Forms::ToolStripButton^ tSB_clockGenerator_start;
 	private: System::Windows::Forms::ToolStripButton^ tSB_clockGenerator_reset;
 	private: System::Windows::Forms::ToolStripButton^ tSB_clockGenerator_stop;
-	private: System::Windows::Forms::Panel^ pnl_ROM_rows;
-	private: System::Windows::Forms::VScrollBar^ cSB_ROM_rows;
+	private: System::Windows::Forms::FlowLayoutPanel^ pnl_ROM_rows;
+
 	private: System::Windows::Forms::ToolStripSeparator^ tSSep_2;
 	private: System::Windows::Forms::ToolStripMenuItem^ tSM_RM;
 	private: System::Windows::Forms::ToolStripMenuItem^ tSM_service_reload;
@@ -94,8 +93,8 @@ namespace TD4mEmulator {
 	private: System::Windows::Forms::ToolStripMenuItem^ tSM_ROM_view_gex;
 	private: System::Windows::Forms::ToolStripMenuItem^ tSM_ROM_clear;
 	private: System::Windows::Forms::Panel^ pnl_RAM;
-	private: System::Windows::Forms::Panel^ pnl_RAM_rows;
-	private: System::Windows::Forms::VScrollBar^ cSB_RAM_rows;
+	private: System::Windows::Forms::FlowLayoutPanel^ pnl_RAM_rows;
+
 	private: System::Windows::Forms::Label^ lb_RAM;
 	private: System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem2;
 	private: System::Windows::Forms::ToolStripMenuItem^ tSM_RAM_view;
@@ -103,17 +102,17 @@ namespace TD4mEmulator {
 	private: System::Windows::Forms::ToolStripMenuItem^ tSM_RAM_view_gex;
 	private: System::Windows::Forms::ToolStripMenuItem^ tSM_RAM_clear;
 	private: System::Windows::Forms::OpenFileDialog^ oFD_OpenFile;
+	private: System::Windows::Forms::SaveFileDialog^ sFD_SaveFile;
 	private: System::Windows::Forms::TextBox^ tB_Log;
+	private: System::Windows::Forms::Timer^ cl_clockTimer;
+	private: System::Windows::Forms::FlowLayoutPanel^ pnl_inputs;
 
 	private: System::ComponentModel::IContainer^ components;
-
 
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-
-
 #pragma region Windows Form Designer generated code
 		/// <summary>
 		/// Требуемый метод для поддержки конструктора — не изменяйте 
@@ -121,12 +120,13 @@ namespace TD4mEmulator {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MainWindow::typeid));
 			this->gB_register_A = (gcnew System::Windows::Forms::GroupBox());
 			this->tB_register_A = (gcnew System::Windows::Forms::TextBox());
 			this->pnl_Register = (gcnew System::Windows::Forms::Panel());
 			this->gB_port_input = (gcnew System::Windows::Forms::GroupBox());
-			this->vSB_port_input = (gcnew System::Windows::Forms::VScrollBar());
+			this->pnl_inputs = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->gB_port_output = (gcnew System::Windows::Forms::GroupBox());
 			this->tB_port_output = (gcnew System::Windows::Forms::TextBox());
 			this->gB_register_XY = (gcnew System::Windows::Forms::GroupBox());
@@ -142,13 +142,12 @@ namespace TD4mEmulator {
 			this->lb_Register = (gcnew System::Windows::Forms::Label());
 			this->lb_TD4m_Emulator = (gcnew System::Windows::Forms::Label());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->tB_Log = (gcnew System::Windows::Forms::TextBox());
 			this->pnl_ROM = (gcnew System::Windows::Forms::Panel());
-			this->pnl_ROM_rows = (gcnew System::Windows::Forms::Panel());
-			this->cSB_ROM_rows = (gcnew System::Windows::Forms::VScrollBar());
+			this->pnl_ROM_rows = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->lb_ROM = (gcnew System::Windows::Forms::Label());
 			this->tS_Down_1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->tSL_selectedFile = (gcnew System::Windows::Forms::ToolStripLabel());
-			this->tSTB_selectedFile = (gcnew System::Windows::Forms::ToolStripTextBox());
 			this->TSSep_1 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->tSL_clockGenerator = (gcnew System::Windows::Forms::ToolStripLabel());
 			this->tSCB_clockGenerator_mode = (gcnew System::Windows::Forms::ToolStripComboBox());
@@ -184,11 +183,11 @@ namespace TD4mEmulator {
 			this->tSM_Sep_3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->tSM_reference = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->pnl_RAM = (gcnew System::Windows::Forms::Panel());
-			this->pnl_RAM_rows = (gcnew System::Windows::Forms::Panel());
-			this->cSB_RAM_rows = (gcnew System::Windows::Forms::VScrollBar());
+			this->pnl_RAM_rows = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->lb_RAM = (gcnew System::Windows::Forms::Label());
 			this->oFD_OpenFile = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->tB_Log = (gcnew System::Windows::Forms::TextBox());
+			this->sFD_SaveFile = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->cl_clockTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->gB_register_A->SuspendLayout();
 			this->pnl_Register->SuspendLayout();
 			this->gB_port_input->SuspendLayout();
@@ -200,11 +199,9 @@ namespace TD4mEmulator {
 			this->gB_register_B->SuspendLayout();
 			this->panel1->SuspendLayout();
 			this->pnl_ROM->SuspendLayout();
-			this->pnl_ROM_rows->SuspendLayout();
 			this->tS_Down_1->SuspendLayout();
 			this->mS_Up_1->SuspendLayout();
 			this->pnl_RAM->SuspendLayout();
-			this->pnl_RAM_rows->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// gB_register_A
@@ -255,24 +252,24 @@ namespace TD4mEmulator {
 			// 
 			// gB_port_input
 			// 
-			this->gB_port_input->Controls->Add(this->vSB_port_input);
-			this->gB_port_input->Location = System::Drawing::Point(150, 150);
+			this->gB_port_input->Controls->Add(this->pnl_inputs);
+			this->gB_port_input->Location = System::Drawing::Point(142, 150);
 			this->gB_port_input->Margin = System::Windows::Forms::Padding(5);
 			this->gB_port_input->Name = L"gB_port_input";
 			this->gB_port_input->Padding = System::Windows::Forms::Padding(10, 4, 10, 4);
-			this->gB_port_input->Size = System::Drawing::Size(140, 170);
+			this->gB_port_input->Size = System::Drawing::Size(158, 170);
 			this->gB_port_input->TabIndex = 8;
 			this->gB_port_input->TabStop = false;
 			this->gB_port_input->Text = L"Входной порт";
 			// 
-			// vSB_port_input
+			// pnl_inputs
 			// 
-			this->vSB_port_input->Dock = System::Windows::Forms::DockStyle::Right;
-			this->vSB_port_input->Location = System::Drawing::Point(115, 16);
-			this->vSB_port_input->Margin = System::Windows::Forms::Padding(5);
-			this->vSB_port_input->Name = L"vSB_port_input";
-			this->vSB_port_input->Size = System::Drawing::Size(15, 150);
-			this->vSB_port_input->TabIndex = 0;
+			this->pnl_inputs->AutoScroll = true;
+			this->pnl_inputs->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->pnl_inputs->Location = System::Drawing::Point(10, 16);
+			this->pnl_inputs->Name = L"pnl_inputs";
+			this->pnl_inputs->Size = System::Drawing::Size(138, 150);
+			this->pnl_inputs->TabIndex = 0;
 			// 
 			// gB_port_output
 			// 
@@ -473,6 +470,17 @@ namespace TD4mEmulator {
 			this->panel1->Size = System::Drawing::Size(300, 200);
 			this->panel1->TabIndex = 10;
 			// 
+			// tB_Log
+			// 
+			this->tB_Log->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tB_Log->Location = System::Drawing::Point(5, 5);
+			this->tB_Log->Margin = System::Windows::Forms::Padding(5);
+			this->tB_Log->Multiline = true;
+			this->tB_Log->Name = L"tB_Log";
+			this->tB_Log->ScrollBars = System::Windows::Forms::ScrollBars::Both;
+			this->tB_Log->Size = System::Drawing::Size(290, 190);
+			this->tB_Log->TabIndex = 0;
+			// 
 			// pnl_ROM
 			// 
 			this->pnl_ROM->BackColor = System::Drawing::SystemColors::ControlLight;
@@ -487,7 +495,7 @@ namespace TD4mEmulator {
 			// 
 			// pnl_ROM_rows
 			// 
-			this->pnl_ROM_rows->Controls->Add(this->cSB_ROM_rows);
+			this->pnl_ROM_rows->AutoScroll = true;
 			this->pnl_ROM_rows->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->pnl_ROM_rows->Location = System::Drawing::Point(5, 25);
 			this->pnl_ROM_rows->Margin = System::Windows::Forms::Padding(5);
@@ -495,14 +503,6 @@ namespace TD4mEmulator {
 			this->pnl_ROM_rows->Padding = System::Windows::Forms::Padding(5);
 			this->pnl_ROM_rows->Size = System::Drawing::Size(280, 510);
 			this->pnl_ROM_rows->TabIndex = 3;
-			// 
-			// cSB_ROM_rows
-			// 
-			this->cSB_ROM_rows->Dock = System::Windows::Forms::DockStyle::Right;
-			this->cSB_ROM_rows->Location = System::Drawing::Point(260, 5);
-			this->cSB_ROM_rows->Name = L"cSB_ROM_rows";
-			this->cSB_ROM_rows->Size = System::Drawing::Size(15, 500);
-			this->cSB_ROM_rows->TabIndex = 5;
 			// 
 			// lb_ROM
 			// 
@@ -520,10 +520,10 @@ namespace TD4mEmulator {
 			// tS_Down_1
 			// 
 			this->tS_Down_1->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->tS_Down_1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(9) {
+			this->tS_Down_1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(8) {
 				this->tSL_selectedFile,
-					this->tSTB_selectedFile, this->TSSep_1, this->tSL_clockGenerator, this->tSCB_clockGenerator_mode, this->tSB_clockGenerator_start,
-					this->tSB_clockGenerator_stop, this->tSB_clockGenerator_reset, this->tSSep_2
+					this->TSSep_1, this->tSL_clockGenerator, this->tSCB_clockGenerator_mode, this->tSB_clockGenerator_start, this->tSB_clockGenerator_stop,
+					this->tSB_clockGenerator_reset, this->tSSep_2
 			});
 			this->tS_Down_1->Location = System::Drawing::Point(0, 621);
 			this->tS_Down_1->Name = L"tS_Down_1";
@@ -534,13 +534,8 @@ namespace TD4mEmulator {
 			// tSL_selectedFile
 			// 
 			this->tSL_selectedFile->Name = L"tSL_selectedFile";
-			this->tSL_selectedFile->Size = System::Drawing::Size(105, 22);
-			this->tSL_selectedFile->Text = L"Выбранный файл";
-			// 
-			// tSTB_selectedFile
-			// 
-			this->tSTB_selectedFile->Name = L"tSTB_selectedFile";
-			this->tSTB_selectedFile->Size = System::Drawing::Size(200, 25);
+			this->tSL_selectedFile->Size = System::Drawing::Size(97, 22);
+			this->tSL_selectedFile->Text = L"Файл не выбран";
 			// 
 			// TSSep_1
 			// 
@@ -559,6 +554,7 @@ namespace TD4mEmulator {
 			this->tSCB_clockGenerator_mode->Name = L"tSCB_clockGenerator_mode";
 			this->tSCB_clockGenerator_mode->Size = System::Drawing::Size(121, 25);
 			this->tSCB_clockGenerator_mode->Text = L"Режим работы";
+			this->tSCB_clockGenerator_mode->SelectedIndexChanged += gcnew System::EventHandler(this, &MainWindow::Generator_ChangeMode);
 			// 
 			// tSB_clockGenerator_start
 			// 
@@ -568,6 +564,7 @@ namespace TD4mEmulator {
 			this->tSB_clockGenerator_start->Name = L"tSB_clockGenerator_start";
 			this->tSB_clockGenerator_start->Size = System::Drawing::Size(23, 22);
 			this->tSB_clockGenerator_start->Text = L"toolStripButton1";
+			this->tSB_clockGenerator_start->Click += gcnew System::EventHandler(this, &MainWindow::Generator_Start);
 			// 
 			// tSB_clockGenerator_stop
 			// 
@@ -577,6 +574,7 @@ namespace TD4mEmulator {
 			this->tSB_clockGenerator_stop->Name = L"tSB_clockGenerator_stop";
 			this->tSB_clockGenerator_stop->Size = System::Drawing::Size(23, 22);
 			this->tSB_clockGenerator_stop->Text = L"toolStripButton3";
+			this->tSB_clockGenerator_stop->Click += gcnew System::EventHandler(this, &MainWindow::Generator_Stop);
 			// 
 			// tSB_clockGenerator_reset
 			// 
@@ -586,6 +584,7 @@ namespace TD4mEmulator {
 			this->tSB_clockGenerator_reset->Name = L"tSB_clockGenerator_reset";
 			this->tSB_clockGenerator_reset->Size = System::Drawing::Size(23, 22);
 			this->tSB_clockGenerator_reset->Text = L"toolStripButton2";
+			this->tSB_clockGenerator_reset->Click += gcnew System::EventHandler(this, &MainWindow::Generator_Restart);
 			// 
 			// tSSep_2
 			// 
@@ -621,6 +620,7 @@ namespace TD4mEmulator {
 			this->tSM_file_open->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::O));
 			this->tSM_file_open->Size = System::Drawing::Size(181, 22);
 			this->tSM_file_open->Text = L"&Открыть";
+			this->tSM_file_open->Click += gcnew System::EventHandler(this, &MainWindow::Data_Load);
 			// 
 			// tSM_Sep_1
 			// 
@@ -634,12 +634,14 @@ namespace TD4mEmulator {
 			this->tSM_file_save->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::S));
 			this->tSM_file_save->Size = System::Drawing::Size(181, 22);
 			this->tSM_file_save->Text = L"&Сохранить";
+			this->tSM_file_save->Click += gcnew System::EventHandler(this, &MainWindow::Data_Save);
 			// 
 			// tSM_file_saveAss
 			// 
 			this->tSM_file_saveAss->Name = L"tSM_file_saveAss";
 			this->tSM_file_saveAss->Size = System::Drawing::Size(181, 22);
 			this->tSM_file_saveAss->Text = L"Сохранить &как";
+			this->tSM_file_saveAss->Click += gcnew System::EventHandler(this, &MainWindow::Data_SaveAs);
 			// 
 			// tSM_Sep_2
 			// 
@@ -651,6 +653,7 @@ namespace TD4mEmulator {
 			this->tSM_file_exit->Name = L"tSM_file_exit";
 			this->tSM_file_exit->Size = System::Drawing::Size(181, 22);
 			this->tSM_file_exit->Text = L"Вы&ход";
+			this->tSM_file_exit->Click += gcnew System::EventHandler(this, &MainWindow::Exit);
 			// 
 			// tSM_RM
 			// 
@@ -669,39 +672,46 @@ namespace TD4mEmulator {
 					this->tSM_ROM_view_binary, this->tSM_ROM_view_gex
 			});
 			this->tSM_ROM_view->Name = L"tSM_ROM_view";
-			this->tSM_ROM_view->Size = System::Drawing::Size(152, 22);
+			this->tSM_ROM_view->Size = System::Drawing::Size(180, 22);
 			this->tSM_ROM_view->Text = L"Вид ПЗУ";
 			// 
 			// tSM_ROM_view_text
 			// 
 			this->tSM_ROM_view_text->Checked = true;
+			this->tSM_ROM_view_text->CheckOnClick = true;
 			this->tSM_ROM_view_text->CheckState = System::Windows::Forms::CheckState::Checked;
 			this->tSM_ROM_view_text->Name = L"tSM_ROM_view_text";
 			this->tSM_ROM_view_text->Size = System::Drawing::Size(190, 22);
-			this->tSM_ROM_view_text->Text = L"Тестовый";
+			this->tSM_ROM_view_text->Text = L"Текстовый";
+			this->tSM_ROM_view_text->CheckedChanged += gcnew System::EventHandler(this, &MainWindow::ROM_ChangeStyle);
 			// 
 			// tSM_ROM_view_binary
 			// 
+			this->tSM_ROM_view_binary->CheckOnClick = true;
 			this->tSM_ROM_view_binary->Name = L"tSM_ROM_view_binary";
 			this->tSM_ROM_view_binary->Size = System::Drawing::Size(190, 22);
 			this->tSM_ROM_view_binary->Text = L"Бинарный";
+			this->tSM_ROM_view_binary->CheckedChanged += gcnew System::EventHandler(this, &MainWindow::ROM_ChangeStyle);
 			// 
 			// tSM_ROM_view_gex
 			// 
+			this->tSM_ROM_view_gex->CheckOnClick = true;
 			this->tSM_ROM_view_gex->Name = L"tSM_ROM_view_gex";
 			this->tSM_ROM_view_gex->Size = System::Drawing::Size(190, 22);
 			this->tSM_ROM_view_gex->Text = L"Шестнадцатиричный";
+			this->tSM_ROM_view_gex->CheckedChanged += gcnew System::EventHandler(this, &MainWindow::ROM_ChangeStyle);
 			// 
 			// tSM_ROM_clear
 			// 
 			this->tSM_ROM_clear->Name = L"tSM_ROM_clear";
-			this->tSM_ROM_clear->Size = System::Drawing::Size(152, 22);
+			this->tSM_ROM_clear->Size = System::Drawing::Size(180, 22);
 			this->tSM_ROM_clear->Text = L"Очистить ПЗУ";
+			this->tSM_ROM_clear->Click += gcnew System::EventHandler(this, &MainWindow::ROM_Clear);
 			// 
 			// toolStripMenuItem2
 			// 
 			this->toolStripMenuItem2->Name = L"toolStripMenuItem2";
-			this->toolStripMenuItem2->Size = System::Drawing::Size(149, 6);
+			this->toolStripMenuItem2->Size = System::Drawing::Size(177, 6);
 			// 
 			// tSM_RAM_view
 			// 
@@ -710,28 +720,33 @@ namespace TD4mEmulator {
 					this->tSM_RAM_view_gex
 			});
 			this->tSM_RAM_view->Name = L"tSM_RAM_view";
-			this->tSM_RAM_view->Size = System::Drawing::Size(152, 22);
+			this->tSM_RAM_view->Size = System::Drawing::Size(180, 22);
 			this->tSM_RAM_view->Text = L"Вид ОЗУ";
 			// 
 			// tSM_RAM_view_binary
 			// 
 			this->tSM_RAM_view_binary->Checked = true;
+			this->tSM_RAM_view_binary->CheckOnClick = true;
 			this->tSM_RAM_view_binary->CheckState = System::Windows::Forms::CheckState::Checked;
 			this->tSM_RAM_view_binary->Name = L"tSM_RAM_view_binary";
 			this->tSM_RAM_view_binary->Size = System::Drawing::Size(190, 22);
 			this->tSM_RAM_view_binary->Text = L"Бинарный";
+			this->tSM_RAM_view_binary->CheckedChanged += gcnew System::EventHandler(this, &MainWindow::RAM_ChangeStyle);
 			// 
 			// tSM_RAM_view_gex
 			// 
+			this->tSM_RAM_view_gex->CheckOnClick = true;
 			this->tSM_RAM_view_gex->Name = L"tSM_RAM_view_gex";
 			this->tSM_RAM_view_gex->Size = System::Drawing::Size(190, 22);
 			this->tSM_RAM_view_gex->Text = L"Шестнадцатиричный";
+			this->tSM_RAM_view_gex->CheckedChanged += gcnew System::EventHandler(this, &MainWindow::RAM_ChangeStyle);
 			// 
 			// tSM_RAM_clear
 			// 
 			this->tSM_RAM_clear->Name = L"tSM_RAM_clear";
-			this->tSM_RAM_clear->Size = System::Drawing::Size(152, 22);
+			this->tSM_RAM_clear->Size = System::Drawing::Size(180, 22);
 			this->tSM_RAM_clear->Text = L"Очистить ОЗУ";
+			this->tSM_RAM_clear->Click += gcnew System::EventHandler(this, &MainWindow::RAM_Clear);
 			// 
 			// tSM_service
 			// 
@@ -753,7 +768,7 @@ namespace TD4mEmulator {
 			// tSM_service_reload_commandTab
 			// 
 			this->tSM_service_reload_commandTab->Name = L"tSM_service_reload_commandTab";
-			this->tSM_service_reload_commandTab->Size = System::Drawing::Size(165, 22);
+			this->tSM_service_reload_commandTab->Size = System::Drawing::Size(164, 22);
 			this->tSM_service_reload_commandTab->Text = L"Таблицу команд";
 			// 
 			// tSM_service_options
@@ -775,18 +790,18 @@ namespace TD4mEmulator {
 			// tSM_reference_commandTab
 			// 
 			this->tSM_reference_commandTab->Name = L"tSM_reference_commandTab";
-			this->tSM_reference_commandTab->Size = System::Drawing::Size(165, 22);
+			this->tSM_reference_commandTab->Size = System::Drawing::Size(164, 22);
 			this->tSM_reference_commandTab->Text = L"Таблица команд";
 			// 
 			// tSM_Sep_3
 			// 
 			this->tSM_Sep_3->Name = L"tSM_Sep_3";
-			this->tSM_Sep_3->Size = System::Drawing::Size(162, 6);
+			this->tSM_Sep_3->Size = System::Drawing::Size(161, 6);
 			// 
 			// tSM_reference
 			// 
 			this->tSM_reference->Name = L"tSM_reference";
-			this->tSM_reference->Size = System::Drawing::Size(165, 22);
+			this->tSM_reference->Size = System::Drawing::Size(164, 22);
 			this->tSM_reference->Text = L"&О программе...";
 			// 
 			// pnl_RAM
@@ -803,7 +818,7 @@ namespace TD4mEmulator {
 			// 
 			// pnl_RAM_rows
 			// 
-			this->pnl_RAM_rows->Controls->Add(this->cSB_RAM_rows);
+			this->pnl_RAM_rows->AutoScroll = true;
 			this->pnl_RAM_rows->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->pnl_RAM_rows->Location = System::Drawing::Point(5, 25);
 			this->pnl_RAM_rows->Margin = System::Windows::Forms::Padding(5);
@@ -811,14 +826,6 @@ namespace TD4mEmulator {
 			this->pnl_RAM_rows->Padding = System::Windows::Forms::Padding(5);
 			this->pnl_RAM_rows->Size = System::Drawing::Size(280, 510);
 			this->pnl_RAM_rows->TabIndex = 3;
-			// 
-			// cSB_RAM_rows
-			// 
-			this->cSB_RAM_rows->Dock = System::Windows::Forms::DockStyle::Right;
-			this->cSB_RAM_rows->Location = System::Drawing::Point(260, 5);
-			this->cSB_RAM_rows->Name = L"cSB_RAM_rows";
-			this->cSB_RAM_rows->Size = System::Drawing::Size(15, 500);
-			this->cSB_RAM_rows->TabIndex = 5;
 			// 
 			// lb_RAM
 			// 
@@ -833,15 +840,9 @@ namespace TD4mEmulator {
 			this->lb_RAM->Text = L"ОЗУ";
 			this->lb_RAM->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
-			// tB_Log
+			// cl_clockTimer
 			// 
-			this->tB_Log->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->tB_Log->Location = System::Drawing::Point(5, 5);
-			this->tB_Log->Margin = System::Windows::Forms::Padding(5);
-			this->tB_Log->Multiline = true;
-			this->tB_Log->Name = L"tB_Log";
-			this->tB_Log->Size = System::Drawing::Size(290, 190);
-			this->tB_Log->TabIndex = 0;
+			this->cl_clockTimer->Tick += gcnew System::EventHandler(this, &MainWindow::Clock_Tick);
 			// 
 			// MainWindow
 			// 
@@ -857,7 +858,6 @@ namespace TD4mEmulator {
 			this->Controls->Add(this->mS_Up_1);
 			this->Font = (gcnew System::Drawing::Font(L"Times New Roman", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MainWindow";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
@@ -882,13 +882,11 @@ namespace TD4mEmulator {
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
 			this->pnl_ROM->ResumeLayout(false);
-			this->pnl_ROM_rows->ResumeLayout(false);
 			this->tS_Down_1->ResumeLayout(false);
 			this->tS_Down_1->PerformLayout();
 			this->mS_Up_1->ResumeLayout(false);
 			this->mS_Up_1->PerformLayout();
 			this->pnl_RAM->ResumeLayout(false);
-			this->pnl_RAM_rows->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -899,19 +897,39 @@ namespace TD4mEmulator {
 
 
 
-	// TODO:
-	// Обработка всех кнопок
-	// Обновление данных после обновления ввода
-	// Валидатор ввода для всех режимов
-	// Таблица команд
-	// Тестирование
-	// Генератор такта
-	// Загрузка из файла
-	// Сохранение в файл
-	//
+		// TODO:
+		// Обработка всех кнопок						- доделать, что делать с сервисом и справкой?
+		// Обновление данных после обновления ввода
+		// Валидатор ввода для всех режимов				- сделать
+		// Таблица команд
+		// Тестирование									- нужны программы
+		//		Сделать возможность текстоого ввода команд
+		// 
+		// Генератор такта
+		// Загрузка из файла							- проверить
+		// Сохранение в файл							- проверить
+
+		// TODO: Валидация ввода
+		// Режим генератора такта
+		// ОЗУ?
+		// Поля памяти
+		// 
+		// 
+
+		// TODO: Исправить ошибки
+		// Ошибка изменения значения порта при работе генератора такта
+		// Структура ОЗУ при шестнадцатеричном режиме
+		// 
+		// 
+		// 
+		// 
+		// 
 
 	protected:
 		Emulator^ mEm;
+		
+		MemoryView^ mRomMemoryView;
+		MemoryView^ mRamMemoryView;
 
 		// Инициализаци
 		System::Void Initialize();
@@ -959,8 +977,6 @@ namespace TD4mEmulator {
 		// О программе
 		System::Void Info(System::Object^ sender, System::EventArgs^ e);
 
-
-
 		// Старт
 		System::Void Generator_Start(System::Object^ sender, System::EventArgs^ e);
 
@@ -970,8 +986,21 @@ namespace TD4mEmulator {
 		// Сброс
 		System::Void Generator_Restart(System::Object^ sender, System::EventArgs^ e);
 
+		System::Void Generator_ChangeMode(System::Object^ sender, System::EventArgs^ e);
+
+		System::Void Clock_Tick(System::Object^ sender, System::EventArgs^ e);
+
+		System::Void LogToUI(String^ line);
+
+		System::Void Input_Bit_Changed(System::Object^ sender, System::EventArgs^ e);
 	protected:
 		// Проверка существования файла
 		bool FileExists(String^ filePath);
-	};
+
+		String^ RequestOpenFile();
+		String^ RequestSaveFile();
+
+		System::Void RefreshRegisters();
+		System::Void RefreshInputs();
+};
 }

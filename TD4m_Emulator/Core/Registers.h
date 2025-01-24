@@ -4,7 +4,7 @@
 #include "../Config/config.h"
 #include "CommandBase.h"
 
-using namespace System;
+using System::Byte;
 
 public ref class Registers {
 public:
@@ -48,7 +48,7 @@ public:
         }
     }
 
-    property Byte OUT {
+    property Byte OUTP {
         Byte get() { return out; }
         void set(Byte value) {
             if (value > MAX_VALUE_4BIT) {
@@ -77,7 +77,7 @@ public:
     }
 
     // Массив значений ввода (каждое значение — 4 бита)
-    property array<Byte>^ IN {
+    property array<Byte>^ INP {
         array<Byte>^ get() { return in; }
         void set(array<Byte>^ values) {
             if (values != nullptr) {
@@ -101,23 +101,27 @@ public:
     }
 
     Registers(Logger^ log) : logger(log) {
-        Reset();
+        Reset(true);
     }
 
-    void Reset() {
+    void Reset(bool inputs) {
         A = 0;
         B = 0;
         PC = 0;
         XY = 0;
-        OUT = 0;
+        OUTP = 0;
+        currentIn = 0;
         Z = false;
         C = false;
-        in = gcnew array<Byte>(0);
+        if (inputs) {
+            in = gcnew array<Byte>(0);
+        }
     }
 
     property bool Z;    // Флаг обнуления
     property bool C;    // Флаг переполнения
 
+    property System::Int16 currentIn;
 protected:
     Byte a;   // Внутреннее поле для регистра A
     Byte b;   // Внутреннее поле для регистра B

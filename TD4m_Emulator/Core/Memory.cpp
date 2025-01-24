@@ -2,7 +2,9 @@
 
 #include "Memory.h"
 
-Memory::Memory(Byte romSize, Byte ramSize) {
+using namespace System;
+
+Memory::Memory(UInt16 romSize, UInt16 ramSize) {
     ROM = gcnew array<Byte>(romSize);
     RAM = gcnew array<Byte>(ramSize);
     Reset();

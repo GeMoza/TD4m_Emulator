@@ -4,11 +4,13 @@
 
 #include "../Commands/CommandProcessor.h"
 
-using namespace System;
+using System::Byte;
+using System::UInt16;
+using System::String;
 
 ref class Emulator {
 public:
-	Emulator(Byte romSize, Byte ramSize, String^ commandsPath, Logger^ log);
+	Emulator(UInt16 romSize, UInt16 ramSize, String^ commandsPath, Logger^ log);
 
 	void Execute(String^ operation);
 	void Execute(Byte code);

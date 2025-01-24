@@ -1,0 +1,60 @@
+Initializing emulator...
+Parsing commands from Excel file: commands.xlsx
+Parsing command: Code=0, Mnemonic=MOV Р, Т
+Invalid binary string format: N
+Parsing command: Code=0, Mnemonic=РDD A,B,N
+Unknown mnemonic: РDD A,B,N
+Parsing command: Code=0, Mnemonic=IN Р
+Invalid binary string format: N
+Parsing command: Code=0, Mnemonic=IN A+N
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=MOV Р, Im
+Parsing command: Code=0, Mnemonic=MOV B,Р
+Invalid binary string format: N
+Parsing command: Code=0, Mnemonic=РDD B,A,N
+Unknown mnemonic: РDD B,A,N
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=ADD Т, Im
+Parsing command: Code=0, Mnemonic=IN Т
+Invalid binary string format: N
+Parsing command: Code=0, Mnemonic=lN B+N
+Unknown mnemonic: lN B+N
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=MOV Т ,Im
+Parsing command: Code=0, Mnemonic=ADD Р,Т
+Parsing command: Code=1, Mnemonic=NEG Р
+Parsing command: Code=2, Mnemonic=NOT Р
+Parsing command: Code=3, Mnemonic=OR Р,B
+Parsing command: Code=4, Mnemonic=AND Р,Т
+Parsing command: Code=5, Mnemonic=XOR Р,Т
+Parsing command: Code=6, Mnemonic=SUB A,B
+Parsing command: Code=7, Mnemonic=OUT Р
+Parsing command: Code=8, Mnemonic=LD Р
+Parsing command: Code=9, Mnemonic=ST Р
+Parsing command: Code=10, Mnemonic=LD Т
+Parsing command: Code=11, Mnemonic=ST Т
+Parsing command: Code=12, Mnemonic=MOV е,Р
+Parsing command: Code=13, Mnemonic=MOV г,Р
+Parsing command: Code=14, Mnemonic=INC ег
+Parsing command: Code=15, Mnemonic=ЃЬа ег
+Unknown mnemonic: ЃЬа ег
+Parsing command: Code=0, Mnemonic=OUT B
+Invalid binary string format: N
+Parsing command: Code=0, Mnemonic=OUT B+N
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=JZ Im
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=OUT Im
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=MOV г,lm
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=MOV X,Im
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=JNC Im
+Invalid binary string format: Im
+Parsing command: Code=0, Mnemonic=ЃЬа Im
+Unknown mnemonic: ЃЬа Im
+Command initialization from Excel completed.
+Resetting emulator...
+Emulator reset successfully.
+Emulator initialized successfully.

@@ -1,6 +1,3 @@
-// Main.h
-#pragma once
-
 #include "MainWindow.h"
 
 using namespace System;

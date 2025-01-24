@@ -2,11 +2,12 @@
 
 #pragma once
 
-using namespace System;
+using System::Byte;
+using System::UInt16;
 
 public ref class Memory {
 public:
-    Memory(Byte romSize, Byte ramSize);
+    Memory(UInt16 romSize, UInt16 ramSize);
 
     Byte ReadROM(Byte address);
     void WriteROM(Byte address, Byte value);
